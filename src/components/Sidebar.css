@@ -1,0 +1,40 @@
+.first-head img {
+  border-radius: 50%;
+  height: 44px;
+  width: 51px;
+}
+.first-head {
+  text-align: center;
+}
+.first-head h1 {
+  color: white;
+  font-size: 16px;
+}
+.side-nav {
+  height: 100%;
+  width: 250px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #22283d;
+  overflow-x: hidden;
+  overflow-y: overlay;
+  padding-top: 20px;
+}
+.the-list {
+  list-style: none;
+}
+.the-list span {
+  padding-right: 15px;
+}
+.the-list li {
+  padding: 10px 0px 15px 0px;
+}
+.the-links {
+  color: white;
+  text-decoration: none;
+}
+.the-links:hover {
+  color: #92939b;
+}

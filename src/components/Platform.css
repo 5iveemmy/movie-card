@@ -1,0 +1,31 @@
+.platform {
+  padding-top: 30px;
+  margin-left: 270px;
+  left: 0;
+}
+
+.the-input {
+  background-color: #26354b;
+  border: none;
+  outline: none;
+}
+
+.icon {
+  color: #707588;
+  padding-right: 15px;
+}
+.for-search {
+  width: 50rem;
+}
+
+.platform-wrap {
+  display: flex;
+  justify-content: space-between;
+}
+
+.for-icons {
+  width: 7rem;
+  color: #707588;
+  display: flex;
+  justify-content: space-around;
+}

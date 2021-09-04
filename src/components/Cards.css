@@ -1,0 +1,24 @@
+.cards {
+  margin-left: 270px;
+  color: #a2a5ad;
+  padding-top: 30px;
+}
+.card-wrapper {
+  background-color: #384054;
+  padding: 10px 1rem;
+  width: 9.3rem;
+}
+
+.card {
+  padding-right: 25px;
+  padding-bottom: 25px;
+}
+.card-wrapper img {
+  width: 146px;
+  height: 175px;
+}
+
+.cards-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
