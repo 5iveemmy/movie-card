@@ -18,8 +18,8 @@
   top: 0;
   left: 0;
   background-color: #22283d;
-  overflow-y: overlay;
   overflow-x: hidden;
+  overflow-y: overlay;
   padding-top: 20px;
 }
 .the-list {
