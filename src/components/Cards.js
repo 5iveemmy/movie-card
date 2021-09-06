@@ -1,45 +1,62 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./Cards.css";
-import fast from "../images/fast.jpeg";
-import banker from "../images/banker.jpeg";
-import django from "../images/django.jpeg";
-import gem from "../images/gem.jpeg";
-import hitman from "../images/hitman.jpg";
-import it from "../images/it.jpeg";
-import man from "../images/man.jpg";
-import skywalker from "../images/skywalker.jpeg";
-import smith from "../images/smith.jpg";
-import spiderVerse from "../images/spiderVerse.jpeg";
-import suicidesquad from "../images/suicidesquad.jpg";
-import widow from "../images/widow.jpeg";
-import wonder from "../images/wonder.jpg";
-import worldWar from "../images/worldWar.jpg";
-import xmen from "../images/x-men.jpg";
+import axios from "axios";
 
 import Card from "./Card";
+
+const options = {
+  method: "GET",
+  url: "https://data-imdb1.p.rapidapi.com/movie/byGen/Drama/",
+  headers: {
+    "x-rapidapi-host": "data-imdb1.p.rapidapi.com",
+    "x-rapidapi-key": "c64538c0e3msh7c9379f641df305p18061djsncb2135f14de5",
+  },
+};
 function Cards() {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    axios
+      .request(options)
+      .then(async (response) => {
+        const data = response.data["Movies Drama"];
+        // take the first 24 movies
+        const myData = data.splice(0, 24);
+        const moviesList = [];
+
+        // fetch for every movie
+        // by looping over them and pushing the result into moviesList
+        for (let i of myData) {
+          options.url =
+            "https://data-imdb1.p.rapidapi.com/movie/id/" + i.imdb_id + "/";
+          let res = await axios.request(options);
+          moviesList.push(res.data[i.title]);
+        }
+        // update state
+        setMovies(moviesList);
+        setIsLoaded(true);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }, []);
+
   return (
     <div className="cards">
       <div className="cards-wrapper">
-        <Card src={fast} title="Fast and furious" year="(2017)" />
-        <Card src={banker} title="Banker" year="(2019)" />
-        <Card src={django} title="Django Unchained" year="(2019)" />
-        <Card src={gem} title="Uncut Gems" year="(2019)" />
-        <Card src={hitman} title="The hitman Bodyguard" year="(2019)" />
-        <Card src={it} title="IT" year="(2019)" />
-        <Card src={man} title="Think like a man" year="(2019)" />
-        <Card src={skywalker} title="Star wars: The skywalker" year="(2019)" />
-        <Card src={smith} title="Mr and Mrs smith" year="(2019)" />
-        <Card
-          src={spiderVerse}
-          title="Spider-man: Into the spider verse"
-          year="(2019)"
-        />
-        <Card src={suicidesquad} title="Suicide squad" year="(2019)" />
-        <Card src={widow} title="Black-wido" year="(2019)" />
-        <Card src={wonder} title="Wonder-woman" year="(2019)" />
-        <Card src={worldWar} title="World war z" year="(2019)" />
-        <Card src={xmen} title="x-men" year="(2019)" />
+        {isLoaded ? (
+          movies.map((movie) => (
+            <Card
+              src={movie.image_url}
+              title={movie.title}
+              year={movie.year}
+              key={movie.imdb_id}
+            />
+          ))
+        ) : (
+          <p> loading ....</p>
+        )}
       </div>
     </div>
   );
