@@ -1,62 +1,46 @@
 import React, { useState, useEffect } from "react";
 import "./Cards.css";
-import axios from "axios";
-
 import Card from "./Card";
 
-const options = {
-  method: "GET",
-  url: "https://data-imdb1.p.rapidapi.com/movie/byGen/Drama/",
-  headers: {
-    "x-rapidapi-host": "data-imdb1.p.rapidapi.com",
-    "x-rapidapi-key": "c64538c0e3msh7c9379f641df305p18061djsncb2135f14de5",
-  },
-};
 function Cards() {
-  const [isLoaded, setIsLoaded] = useState(false);
   const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const API_KEY = "api_key=61dab464da90e05f4f4c3a6362670387";
+  const BASE_URL = "https://api.themoviedb.org/3";
+  const API_URL =
+    BASE_URL + "/discover/movie?sort_by=popularity.desc&" + API_KEY;
 
   useEffect(() => {
-    axios
-      .request(options)
-      .then(async (response) => {
-        const data = response.data["Movies Drama"];
-        // take the first 24 movies
-        const myData = data.splice(0, 24);
-        const moviesList = [];
-
-        // fetch for every movie
-        // by looping over them and pushing the result into moviesList
-        for (let i of myData) {
-          options.url =
-            "https://data-imdb1.p.rapidapi.com/movie/id/" + i.imdb_id + "/";
-          let res = await axios.request(options);
-          moviesList.push(res.data[i.title]);
+    fetch(API_URL)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
         }
-        // update state
-        setMovies(moviesList);
-        setIsLoaded(true);
+        throw response;
       })
-      .catch(function (error) {
-        console.error(error);
+      .then((data) => {
+        console.log(data);
+        setMovies(data.results);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+        setError(error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-  }, []);
+  }, [API_URL]);
+
+  if (loading) return "Loading...";
+  if (error) return "Error!";
 
   return (
     <div className="cards">
       <div className="cards-wrapper">
-        {isLoaded ? (
-          movies.map((movie) => (
-            <Card
-              src={movie.image_url}
-              title={movie.title}
-              year={movie.year}
-              key={movie.imdb_id}
-            />
-          ))
-        ) : (
-          <p> loading ....</p>
-        )}
+        {movies.length > 0 &&
+          movies.map((movie) => <Card key={movie.id} {...movie} />)}
       </div>
     </div>
   );

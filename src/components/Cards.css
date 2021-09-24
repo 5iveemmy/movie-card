@@ -1,25 +1,35 @@
 .cards {
-  margin-left: 270px;
+  margin-left: 19rem;
   color: #a2a5ad;
   padding-top: 30px;
 }
 .card-wrapper {
   background-color: #384054;
   padding: 10px 1rem;
-  width: 9.3rem;
+  /* width: 9.3rem; */
+}
+
+h2,
+span {
+  font-size: 16px;
+  font-weight: 100;
+  font-style: oblique;
 }
 
 .card {
-  padding-right: 25px;
-  width: 234px;
-  padding-bottom: 25px;
+  padding-right: 2.6rem;
+  max-width: 13rem;
+  padding-bottom: 3rem;
+  text-align: center;
 }
 .card-wrapper img {
-  width: 146px;
-  height: 175px;
+  /* width: 146px;
+  height: 175px; */
+  max-width: 100%;
 }
 
 .cards-wrapper {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
 }
